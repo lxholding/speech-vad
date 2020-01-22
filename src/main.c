@@ -42,7 +42,7 @@ int main() {
 }
 
 int run(FILE *fp, simple_vad *vad, struct cut_info *cut) {
-
+    printf("SAMPLE_RATE:%d FRAME_SIZE:%d \n", SAMPLE_RATE, FRAME_SIZE);
     int16_t data[FRAME_SIZE];
     int res = 0;
     struct periods *per = periods_create();
@@ -52,6 +52,7 @@ int run(FILE *fp, simple_vad *vad, struct cut_info *cut) {
         if (res <= 1) {
             int is_last = (res == 1);
             int is_active = process_vad(vad, data);
+            printf("is_active:%d \n", is_active);
             add_period_activity(per, is_active, is_last);
             int vad_file_res = cut_add_vad_activity(cut, is_active, is_last);
             if (vad_file_res < 0) {
